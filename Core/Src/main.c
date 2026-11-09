@@ -97,7 +97,7 @@ int main(void)
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
   extern uint8_t rx_byte;
-  HAL_UART_Receive_IT(&huart2, &rx_byte, 1); 
+  HAL_UART_Receive_IT(&huart2, &rx_byte, 1);
 
   /* USER CODE END 2 */
 

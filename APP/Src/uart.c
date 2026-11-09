@@ -7,7 +7,11 @@
 extern float Kp, Ki, Kd;
 
 void UART_SendData(const char *format, ...) {
+<<<<<<< HEAD
     static char buffer[128]; 
+=======
+    static char buffer[128];
+>>>>>>> 607cae4aad3edb94f105a1ba514c7c471cfa6732
     va_list args;
     va_start(args, format);
     vsnprintf(buffer, sizeof(buffer), format, args);

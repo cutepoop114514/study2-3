@@ -5,7 +5,11 @@
 
 void motor_init(void) {
     HAL_TIM_PWM_Start(&htim4, TIM_CHANNEL_3); 
+<<<<<<< HEAD
     HAL_TIM_Encoder_Start(&htim2, TIM_CHANNEL_ALL);
+=======
+    HAL_TIM_Encoder_Start(&htim2, TIM_CHANNEL_ALL); 
+>>>>>>> 607cae4aad3edb94f105a1ba514c7c471cfa6732
     
     HAL_GPIO_WritePin(AIN1_GPIO_Port, AIN1_Pin, GPIO_PIN_RESET);
     HAL_GPIO_WritePin(AIN2_GPIO_Port, AIN2_Pin, GPIO_PIN_RESET);
@@ -13,11 +17,17 @@ void motor_init(void) {
 }
 
 void motor_set_speed(int speed) {
+<<<<<<< HEAD
     if (speed > 0 && speed < 15) speed = 15;
     if (speed < 0 && speed > -15) speed = -15;
 
     uint16_t pwm = (speed > 0 ? speed : -speed); 
     if (pwm > 99) pwm = 99; 
+=======
+
+    uint16_t pwm = (speed > 0 ? speed : -speed); 
+    if (pwm > 99) pwm = 99;
+>>>>>>> 607cae4aad3edb94f105a1ba514c7c471cfa6732
 
     if (speed >= 0) {
         HAL_GPIO_WritePin(AIN1_GPIO_Port, AIN1_Pin, GPIO_PIN_SET);
@@ -39,6 +49,10 @@ float motor_get_speed(void) {
     __HAL_TIM_SET_COUNTER(&htim2, 0);
     float temp1 = (float)temp * 700.0f / 1000.0f; 
     static float speed = 0;
+<<<<<<< HEAD
     speed = 0.75f * speed + 0.25f * temp1; 
+=======
+    speed = 0.75f * speed + 0.25f * temp1;
+>>>>>>> 607cae4aad3edb94f105a1ba514c7c471cfa6732
     return speed; 
 }

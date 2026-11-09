@@ -48,8 +48,8 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
-volatile int16_t g_target_speed = 0; // 目标速度，单位 RPM
-extern float Kp, Ki, Kd; // PID 参数
+volatile int16_t g_target_speed = 0;
+extern float Kp, Ki, Kd;
 /* USER CODE END Variables */
 /* Definitions for sin_generate_ta */
 osThreadId_t sin_generate_taHandle;
@@ -134,8 +134,8 @@ void Sin_generate_task(void *argument)
   const float A = 100.0f;                          
   const float f = 0.2f;                                
   const float omega = 2.0f * 3.14159265f * f;          
-  static float t = 0.0f;    
-  /* Infinite loop */
+  static float t = 0.0f;                                
+  
   for(;;)
   {
     t += 0.01f; 
@@ -159,7 +159,7 @@ void Sin_generate_task(void *argument)
 /* USER CODE END Header_Motor_task */
 void Motor_task(void *argument)
 {
-  /* USER CODE BEGIN Motor_task */
+  /* USER CODE BEGIN StartTask02 */
   motor_init();
   TickType_t xLastWakeTime = xTaskGetTickCount();
   /* Infinite loop */
