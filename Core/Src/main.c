@@ -98,7 +98,7 @@ int main(void)
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
   extern uint8_t rx_byte;
-  HAL_UART_Receive_IT(&huart2, &rx_byte, 1); // 开启串口接收中断
+  HAL_UART_Receive_IT(&huart2, &rx_byte, 1);
 
   /* USER CODE END 2 */
 
@@ -198,8 +198,6 @@ void Error_Handler(void)
   __disable_irq();
   while (1)
   {
-     // 如果用 HSE 起振失败，或者外设初始化失败，就会死在这里
-    // 我们让灯狂闪，表示报错了！
     HAL_GPIO_TogglePin(GPIOB, GPIO_PIN_0);
     for(volatile int i=0; i<200000; i++); 
   }

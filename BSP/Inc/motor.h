@@ -5,6 +5,6 @@
 void motor_init(void);
 void motor_set_speed(int speed);
 void motor_stop(void);
-float motor_get_speed(void); // 【必须返回 float】
+float motor_get_speed(void);
 
 #endif

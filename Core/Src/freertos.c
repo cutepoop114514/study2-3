@@ -48,8 +48,8 @@
 
 /* Private variables ---------------------------------------------------------*/
 /* USER CODE BEGIN Variables */
-volatile int16_t g_target_speed = 0; // 目标速度，单位 RPM
-extern float Kp, Ki, Kd; // PID 参数
+volatile int16_t g_target_speed = 0;
+extern float Kp, Ki, Kd;
 /* USER CODE END Variables */
 /* Definitions for sin_generate_ta */
 osThreadId_t sin_generate_taHandle;
@@ -131,23 +131,18 @@ void StartDefaultTask(void *argument)
   /* USER CODE BEGIN StartDefaultTask */
   TickType_t xLastWakeTime = xTaskGetTickCount();
   
-  const float A = 100.0f;                               // 幅值
-  const float f = 0.2f;                                 // 频率 0.2Hz (周期 5秒)
-  const float omega = 2.0f * 3.14159265f * f;           // 角频率
+  const float A = 100.0f;                          
+  const float f = 0.2f;                                
+  const float omega = 2.0f * 3.14159265f * f;          
   static float t = 0.0f;                                
   
   for(;;)
   {
-    // 每次加 0.01 秒 (因为任务延时是 10ms)
     t += 0.01f; 
-    
-    // 【关键点】如果时间超过 5 秒 (一个完整周期)，就减去 5 秒重新开始
-    // 这样 t 永远在 0~5 之间循环，不仅一直跑，而且精度永远不会丢失！
     if (t >= 5.0f) {
         t -= 5.0f;
     }
-    
-    // 计算正弦值
+
     g_target_speed = (int16_t)(A * sinf(omega * t)); 
     
     vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(10)); 
@@ -165,12 +160,12 @@ void StartDefaultTask(void *argument)
 void StartTask02(void *argument)
 {
   /* USER CODE BEGIN StartTask02 */
-  motor_init(); // 小写
+  motor_init();
   TickType_t xLastWakeTime = xTaskGetTickCount();
   
   for(;;)
   {
-    pid_task(); // 调用 PID 控制函数，调节电机速度
+    pid_task();
     
     vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(5));
   }
