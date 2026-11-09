@@ -4,10 +4,6 @@
 #include "uart.h"
 
 extern volatile int16_t g_target_speed; 
-<<<<<<< HEAD
-=======
-
->>>>>>> 607cae4aad3edb94f105a1ba514c7c471cfa6732
 float Kp = 1.025f, Ki = 0.009f, Kd = 0.001f; 
 static float Out = 0.0f;
 static float Error0 = 0.0f, Error1 = 0.0f, ErrorInt = 0.0f;
@@ -16,10 +12,6 @@ void pid_task(void) {
     float Actual = motor_get_speed();
     Error1 = Error0;
     Error0 = g_target_speed - Actual;
-<<<<<<< HEAD
-
-=======
->>>>>>> 607cae4aad3edb94f105a1ba514c7c471cfa6732
     ErrorInt += Error0;
     if (ErrorInt > 500.0f) ErrorInt = 500.0f;
     if (ErrorInt < -500.0f) ErrorInt = -500.0f;
@@ -34,4 +26,4 @@ void pid_task(void) {
     if(Out != 0) motor_set_speed((int16_t)Out);
     else motor_stop();
 }
-//test
+//test//
