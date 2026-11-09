@@ -76,7 +76,6 @@ int main(void)
   /* MCU Configuration--------------------------------------------------------*/
 
   /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-
   HAL_Init();
 
   /* USER CODE BEGIN Init */
@@ -98,7 +97,7 @@ int main(void)
   MX_USART2_UART_Init();
   /* USER CODE BEGIN 2 */
   extern uint8_t rx_byte;
-  HAL_UART_Receive_IT(&huart2, &rx_byte, 1); // 开启串口接收中断
+  HAL_UART_Receive_IT(&huart2, &rx_byte, 1); 
 
   /* USER CODE END 2 */
 

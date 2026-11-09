@@ -71,8 +71,8 @@ const osThreadAttr_t motor_task_attributes = {
 
 /* USER CODE END FunctionPrototypes */
 
-void StartDefaultTask(void *argument);
-void StartTask02(void *argument);
+void Sin_generate_task(void *argument);
+void Motor_task(void *argument);
 
 void MX_FREERTOS_Init(void); /* (MISRA C 2004 rule 8.1) */
 
@@ -104,10 +104,10 @@ void MX_FREERTOS_Init(void) {
 
   /* Create the thread(s) */
   /* creation of sin_generate_ta */
-  sin_generate_taHandle = osThreadNew(StartDefaultTask, NULL, &sin_generate_ta_attributes);
+  sin_generate_taHandle = osThreadNew(Sin_generate_task, NULL, &sin_generate_ta_attributes);
 
   /* creation of motor_task */
-  motor_taskHandle = osThreadNew(StartTask02, NULL, &motor_task_attributes);
+  motor_taskHandle = osThreadNew(Motor_task, NULL, &motor_task_attributes);
 
   /* USER CODE BEGIN RTOS_THREADS */
   /* add threads, ... */
@@ -119,62 +119,57 @@ void MX_FREERTOS_Init(void) {
 
 }
 
-/* USER CODE BEGIN Header_StartDefaultTask */
+/* USER CODE BEGIN Header_Sin_generate_task */
 /**
   * @brief  Function implementing the sin_generate_ta thread.
   * @param  argument: Not used
   * @retval None
   */
-/* USER CODE END Header_StartDefaultTask */
-void StartDefaultTask(void *argument)
+/* USER CODE END Header_Sin_generate_task */
+void Sin_generate_task(void *argument)
 {
-  /* USER CODE BEGIN StartDefaultTask */
+  /* USER CODE BEGIN Sin_generate_task */
   TickType_t xLastWakeTime = xTaskGetTickCount();
   
-  const float A = 100.0f;                               // 幅值
-  const float f = 0.2f;                                 // 频率 0.2Hz (周期 5秒)
-  const float omega = 2.0f * 3.14159265f * f;           // 角频率
-  static float t = 0.0f;                                
-  
+  const float A = 100.0f;                          
+  const float f = 0.2f;                                
+  const float omega = 2.0f * 3.14159265f * f;          
+  static float t = 0.0f;    
+  /* Infinite loop */
   for(;;)
   {
-    // 每次加 0.01 秒 (因为任务延时是 10ms)
     t += 0.01f; 
-    
-    // 【关键点】如果时间超过 5 秒 (一个完整周期)，就减去 5 秒重新开始
-    // 这样 t 永远在 0~5 之间循环，不仅一直跑，而且精度永远不会丢失！
     if (t >= 5.0f) {
         t -= 5.0f;
     }
-    
-    // 计算正弦值
+
     g_target_speed = (int16_t)(A * sinf(omega * t)); 
     
     vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(10)); 
   }
-  /* USER CODE END StartDefaultTask */
+  /* USER CODE END Sin_generate_task */
 }
 
-/* USER CODE BEGIN Header_StartTask02 */
+/* USER CODE BEGIN Header_Motor_task */
 /**
 * @brief Function implementing the motor_task thread.
 * @param argument: Not used
 * @retval None
 */
-/* USER CODE END Header_StartTask02 */
-void StartTask02(void *argument)
+/* USER CODE END Header_Motor_task */
+void Motor_task(void *argument)
 {
-  /* USER CODE BEGIN StartTask02 */
-  motor_init(); // 小写
+  /* USER CODE BEGIN Motor_task */
+  motor_init();
   TickType_t xLastWakeTime = xTaskGetTickCount();
-  
+  /* Infinite loop */
   for(;;)
   {
-    pid_task(); // 调用 PID 控制函数，调节电机速度
+    pid_task();
     
     vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(5));
   }
-  /* USER CODE END StartTask02 */
+  /* USER CODE END Motor_task */
 }
 
 /* Private application code --------------------------------------------------*/
