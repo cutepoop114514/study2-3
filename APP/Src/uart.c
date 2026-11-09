@@ -4,10 +4,10 @@
 #include <string.h>
 #include <stdlib.h>
 
-extern float Kp, Ki, Kd; // 引用 pid.c 里的参数
+extern float Kp, Ki, Kd;
 
 void UART_SendData(const char *format, ...) {
-    static char buffer[128]; // 必须是 static
+    static char buffer[128]; 
     va_list args;
     va_start(args, format);
     vsnprintf(buffer, sizeof(buffer), format, args);
@@ -18,7 +18,6 @@ void UART_SendData(const char *format, ...) {
     }
 }
 
-// 串口接收中断回调函数 (用于调参)
 uint8_t rx_byte;
 char rx_buffer[64];
 int rx_index = 0;
